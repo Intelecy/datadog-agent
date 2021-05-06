@@ -55,6 +55,8 @@ TOOL_LIST = [
     'github.com/goware/modvendor',
     'github.com/mgechev/revive',
     'github.com/stormcat24/protodep',
+    'github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway@v1.12.2',
+    'github.com/golang/protobuf/protoc-gen-go@v1.3.2',
     'golang.org/x/lint/golint',
     'gotest.tools/gotestsum',
     'honnef.co/go/tools/cmd/staticcheck',
