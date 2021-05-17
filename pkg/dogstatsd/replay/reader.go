@@ -74,6 +74,13 @@ func (tc *TrafficCaptureReader) Read() {
 	tc.offset = uint32(len(datadogHeader))
 	tc.Unlock()
 
+	var tsResolution time.Duration
+	if tc.Version < minNanoVersion {
+		tsResolution = time.Second
+	} else {
+		tsResolution = time.Nanosecond
+	}
+
 iterate:
 	// The state must be read out of band, it makes zero sense in the context
 	// of the replaying process, it must be pushed to the agent. We just read
@@ -91,7 +98,7 @@ iterate:
 		// TODO: ensure proper cadence
 		if tc.last != 0 {
 			if msg.Timestamp > tc.last {
-				util.Wait(time.Second * time.Duration(msg.Timestamp-tc.last))
+				util.Wait(tsResolution * time.Duration(msg.Timestamp-tc.last))
 			}
 		}
 
