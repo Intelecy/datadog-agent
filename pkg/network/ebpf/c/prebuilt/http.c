@@ -5,23 +5,30 @@
 #include "ipv6.h"
 #include "http.h"
 
+// Replace those by injected constants based on system configuration
+#define EPHEMERAL_RANGE_BEG 32768
+#define EPHEMERAL_RANGE_END 60999
+
+static __always_inline int is_ephemeral_port(u16 port) {
+    return port >= EPHEMERAL_RANGE_BEG && port <= EPHEMERAL_RANGE_END;
+}
+
 SEC("socket/http_filter")
 int socket__http_filter(struct __sk_buff* skb) {
     skb_info_t skb_info;
 
-    if (!read_conn_tuple_skb(skb, &skb_info)) {
+    if (!read_conn_tuple_skb(skb, &skb_info) || !(skb_info.tup.metadata&CONN_TYPE_TCP)) {
         return 0;
     }
+
 
     // src_port represents the source port number *before* normalization
     // for more context please refer to http-types.h comment on `owned_by_src_port` field
     u16 src_port = skb_info.tup.sport;
-    if (skb_info.tup.sport != 80 && skb_info.tup.sport != 8080 && skb_info.tup.dport != 80 && skb_info.tup.dport != 8080) {
-        return 0;
-    }
 
-    if (skb_info.tup.sport == 80 || skb_info.tup.sport == 8080) {
-        // Normalize tuple
+    // we normalize the tuple to always be (client, server),
+    // so if sport is not in ephemeral port range we flip it
+    if (!is_ephemeral_port(skb_info.tup.sport)) {
         flip_tuple(&skb_info.tup);
     }
 
