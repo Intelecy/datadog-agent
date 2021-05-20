@@ -67,7 +67,7 @@ require (
 	github.com/Masterminds/sprig v2.22.0+incompatible
 	github.com/Microsoft/go-winio v0.4.17-0.20210211115548-6eac466e5fa3
 	github.com/StackExchange/wmi v0.0.0-20210224194228-fe8f1750fd46 // indirect
-	github.com/alecthomas/participle v0.4.4
+	github.com/alecthomas/participle v0.7.1
 	github.com/alecthomas/repr v0.0.0-20181024024818-d37bc2a10ba1
 	github.com/andybalholm/brotli v1.0.1 // indirect
 	github.com/avast/retry-go v2.7.0+incompatible
@@ -133,7 +133,7 @@ require (
 	github.com/lib/pq v1.10.0 // indirect
 	github.com/lxn/walk v0.0.0-20191128110447-55ccb3a9f5c1
 	github.com/lxn/win v0.0.0-20191128105842-2da648fda5b4
-	github.com/mailru/easyjson v0.7.6
+	github.com/mailru/easyjson v0.7.7
 	github.com/mdlayher/netlink v1.4.0
 	github.com/mholt/archiver/v3 v3.5.0
 	github.com/miekg/dns v1.1.31
